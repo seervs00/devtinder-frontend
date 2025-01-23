@@ -1,5 +1,6 @@
 
 import { useSelector } from 'react-redux'
+import Logout from './Logout';
 
 const NavBar = () => {
   const user = useSelector((store) =>store.user);
@@ -32,7 +33,7 @@ const NavBar = () => {
           </a>
         </li>
         <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+        <li><a onClick={Logout}>Logout</a></li>
       </ul>
     </div>
   )}

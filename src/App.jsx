@@ -1,5 +1,4 @@
-import React from "react";
-import NavBar from "./components/NavBar";
+
 import { BrowserRouter, Route, Routes } from "react-router";
 import Body from "./components/Body";
 import Login from "./components/Login";
