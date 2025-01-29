@@ -20,7 +20,6 @@ const Login = () => {
     }
     catch(err){
       setError(err?.response?.data || "something went wrong")
-      console.error(err)
     }
   }
   

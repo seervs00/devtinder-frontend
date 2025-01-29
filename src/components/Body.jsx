@@ -15,7 +15,7 @@ const fatchUser = async()=>{
     return ;
   }
  try{
-  const res =  await axios.get("http://localhost:5170/profile/view",{},{withCredentials:true});
+  const res =  await axios.get("http://localhost:5170/profile/view",{withCredentials:true});
 dispatch(addUser(res.data));
  }
  catch(err){
