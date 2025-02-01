@@ -1,26 +1,68 @@
-import React from 'react'
+import React from "react";
 
-const UserCard = ({user}) => {
-   const {firstName , lastName ,photoUrl, about , age , gender } = user;
+const UserCard = ({ user }) => {
+  const { firstName, lastName, photoUrl, about, age, gender } = user;
+
   return (
-    <div><div className="card bg-base-300 w-80">
-    <figure>
-      <img
-        src={photoUrl}
-        alt="car!" />
-    </figure>
-    <div className="card-body">
-      <h2 className="card-title">{firstName + " " + lastName}</h2>
-      { age && gender && <p>{age + ", " + gender}</p>}
-      <p>{about}</p>
-      <div className="card-actions justify-around m-2">
-        <button className="btn btn-primary">ignored</button>
-        <button className="btn btn-secondary">interested</button>
+    <div className="card bg-white rounded-xl shadow-xl overflow-hidden w-96 transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+      {/* Profile Image */}
+      <figure className="relative h-60">
+        <img
+          src={photoUrl || "https://via.placeholder.com/300"}
+          alt="Profile"
+          className="w-full h-full object-cover"
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+        {/* User Name */}
+        <div className="absolute bottom-4 left-4 text-white">
+          <h2 className="text-2xl font-bold">
+            {firstName} {lastName}
+          </h2>
+          {age && gender && (
+            <p className="text-sm text-gray-200">
+              {age}, {gender}
+            </p>
+          )}
+        </div>
+      </figure>
+
+      {/* Card Body */}
+      <div className="p-6">
+        {/* About Section */}
+        <div className="flex items-start space-x-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-purple-500 flex-shrink-0 mt-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p className="text-gray-600 text-sm">{about}</p>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-100 my-4"></div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-between">
+          <button className="btn btn-outline btn-error btn-sm hover:bg-red-500 hover:text-white transition-colors duration-300">
+            Ignored
+          </button>
+          <button className="btn btn-outline btn-success btn-sm hover:bg-green-500 hover:text-white transition-colors duration-300">
+            Interested
+          </button>
+        </div>
       </div>
     </div>
-  </div></div>
-  
-  )
-}
+  );
+};
 
-export default UserCard
+export default UserCard;
