@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addRequest } from "../utils/request";
+import { addRequest, removeRequest } from "../utils/request";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,24 +24,34 @@ const Request = () => {
   };
 
   const handleAccept = async (id) => {
+   
+    if (!id) {
+      setError("Invalid request ID");
+      return;
+    }
     try {
-      await axios.post(`http://localhost:5170/request/send/interested/${id}`, {}, {
+      await axios.post(`http://localhost:5170/request/review/accepted/${id}`, {}, {
         withCredentials: true,
       });
-      // Refetch requests after accepting
+      dispatch(removeRequest());
       fetchRequest();
     } catch (err) {
       console.error(err);
       setError("Failed to accept request");
     }
   };
-
+  
   const handleReject = async (id) => {
+
+    if (!id) {
+      setError("Invalid request ID");
+      return;
+    }
     try {
-      await axios.post(`http://localhost:5170/request/send/interested/${id}`, {}, {
+      await axios.post(`http://localhost:5170/request/review/rejected/${id}`, {}, {
         withCredentials: true,
       });
-      // Refetch requests after rejecting
+      dispatch(removeRequest());
       fetchRequest();
     } catch (err) {
       console.error(err);
@@ -62,16 +72,16 @@ const Request = () => {
   }
 
   if (!request || request.length === 0) {
-    return <div className="text-center font-bold"><h3>No Request</h3></div>;
+    return <div className="text-center font-bold my-5 text-2xl"><h3>No Request</h3></div>;
   }
 
   return (
     <div className="text-center my-10 justify-between">
       <h1 className="text-bold text-white text-3xl">Request</h1>
       {request.map((request, index) => {
-        const { firstName, lastName, about, photoUrl, age, gender, id } = request?.fromUserId;
+        const { firstName, lastName, about, photoUrl, age, gender} = request.fromUserId;
         return (
-          <div key={id || index} className="flex justify-center rounded-lg m-4 p-4 bg-base-300 mx-auto w-1/2">
+          <div key={request._id || index} className="flex justify-center rounded-lg m-4 p-4 bg-base-300 mx-auto w-1/2">
             <div>
               <img 
                 src={photoUrl || "https://via.placeholder.com/150"} 
@@ -88,13 +98,13 @@ const Request = () => {
             </div>
             <div className="flex items-center">
               <button 
-                onClick={() => handleReject(id)} 
+                onClick={() => handleReject(request._id)} 
                 className="btn btn-outline btn-error btn-sm hover:bg-red-500 hover:text-white transition-colors duration-300 mx-2"
               >
                 Reject
               </button>
               <button 
-                onClick={() => handleAccept(id)} 
+                onClick={() => handleAccept(request._id)} 
                 className="btn btn-outline btn-success btn-sm hover:bg-green-500 hover:text-white transition-colors duration-300 mx-2"
               >
                 Accept
